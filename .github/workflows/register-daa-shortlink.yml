@@ -1,0 +1,20 @@
+name: Register DAA short URL
+on:
+  push:
+    paths:
+      - '.github/workflows/register-daa-shortlink.yml'
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create and check is.gd custom link
+        shell: bash
+        run: |
+          set -euo pipefail
+          target='https://raw.githubusercontent.com/IchigoSolos69/DAA-Assignments/main/viva-codes/install.sh'
+          echo 'Registering is.gd/daaadi...'
+          result="$(curl -fsS --get 'https://is.gd/create.php' --data-urlencode 'format=simple' --data-urlencode "url=$target" --data-urlencode 'shorturl=daaadi' || true)"
+          printf 'Registration response: %s\n' "$result"
+          lookup="$(curl -fsS --get 'https://is.gd/forward.php' --data-urlencode 'format=simple' --data-urlencode 'shorturl=daaadi' || true)"
+          printf 'Lookup response: %s\n' "$lookup"
+          test "$lookup" = "$target"
