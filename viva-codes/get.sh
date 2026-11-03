@@ -24,7 +24,7 @@ download_one() {
 selection="${1:-}"
 if [[ -z "$selection" ]]; then
   usage
-  read -r -p "Select (1-5/a): " selection
+  read -r -p "Select (1-5/a): " selection </dev/tty
 fi
 
 case "$selection" in
